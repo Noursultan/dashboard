@@ -3,10 +3,12 @@ import 'package:dio/dio.dart';
 import 'package:dashboard_mvvm_arch/core/auto_bloc/auto_bloc.dart';
 import 'package:dashboard_mvvm_arch/core/constants/server_constants.dart';
 import 'package:dashboard_mvvm_arch/core/router/router.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:flutter/foundation.dart';
 
 /// Returns a globally configured Dio instance
 Dio createDio() {
-  return Dio(
+  final dio = Dio(
     BaseOptions(
       baseUrl: ServerConstants.serverURL,
       contentType: Headers.formUrlEncodedContentType,
@@ -16,6 +18,19 @@ Dio createDio() {
       validateStatus: (status) => status != null && status <= 503,
     ),
   );
+
+  dio.interceptors.add(PrettyDioLogger(
+    requestHeader: true,
+    requestBody: true,
+    responseBody: true,
+    responseHeader: false,
+    error: true,
+    compact: true,
+    maxWidth: 90,
+    enabled: kDebugMode,
+  ));
+
+  return dio;
 }
 
 /// Returns a Dio that does NOT add any auth token
@@ -75,7 +90,7 @@ Future<String?> _refreshToken() async {
       data: {'refresh': refreshToken},
     );
 
-    final newAccessToken = response.data['access_token'];
+    final newAccessToken = response.data['data']['access_token'];
 
     // Store the new token
     SharedPrefStorage.instance.setString('access_token', newAccessToken);

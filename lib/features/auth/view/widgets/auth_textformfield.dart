@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AuthTextFormField extends StatefulWidget {
   final String hintText;
@@ -74,28 +73,28 @@ class _AuthTextFormFieldState extends State<AuthTextFormField> {
                   FilteringTextInputFormatter.digitsOnly,
                 ]
               : null,
-          style: TextStyle(
-            fontSize: 16.sp,
-            color: Colors.white,
+          style: const TextStyle(
+            fontSize: 16.0, // Fixed font size
+            color: Colors.black,
             fontWeight: FontWeight.w500,
           ),
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 18.w,
-              vertical: 16.h,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 18.0, // Fixed padding
+              vertical: 16.0,
             ),
             hintText: widget.hintText,
-            hintStyle: TextStyle(
-              fontSize: 16.sp,
+            hintStyle: const TextStyle(
+              fontSize: 16.0, // Fixed font size
               fontWeight: FontWeight.w400,
-              color: Colors.white54,
+              color: Color.fromRGBO(0, 0, 0, 0.5),
             ),
             suffixIcon: widget.isPassword
                 ? IconButton(
                     icon: Icon(
                       _isObscured ? Icons.visibility_off : Icons.visibility,
-                      color: Colors.white,
-                      size: 20.sp,
+                      color: Colors.black,
+                      size: 20.0, // Fixed icon size
                     ),
                     onPressed: () {
                       setState(() {
@@ -105,27 +104,42 @@ class _AuthTextFormFieldState extends State<AuthTextFormField> {
                   )
                 : null,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide(color: Colors.white, width: 1.w),
+              borderRadius: BorderRadius.circular(10.0), // Fixed radius
+              borderSide: const BorderSide(
+                color: Color(0xFFD8DADC),
+                width: 1.0,
+              ),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide(color: Colors.white, width: 1.w),
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: const BorderSide(
+                color: Color(0xFFD8DADC),
+                width: 1.0,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide(color: Colors.white, width: 1.w),
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: const BorderSide(
+                color: Color(0xFFD8DADC),
+                width: 1.0,
+              ),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide(color: Colors.red, width: 1.w),
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: const BorderSide(
+                color: Colors.red,
+                width: 1.0,
+              ),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide(color: Colors.red, width: 1.w),
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: const BorderSide(
+                color: Colors.red,
+                width: 1.0,
+              ),
             ),
-            errorStyle: TextStyle(
-              fontSize: 12.sp,
+            errorStyle: const TextStyle(
+              fontSize: 12.0, // Fixed font size
               color: Colors.red,
               fontWeight: FontWeight.w400,
             ),
@@ -137,7 +151,7 @@ class _AuthTextFormFieldState extends State<AuthTextFormField> {
             }
           },
         ),
-        SizedBox(height: 8.h),
+        const SizedBox(height: 8.0), // Fixed height
       ],
     );
   }
