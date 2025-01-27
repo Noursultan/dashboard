@@ -2,8 +2,32 @@ import 'package:dashboard_mvvm_arch/core/utils/screen_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class MainAfterpage extends StatelessWidget {
+enum DashboardType {
+  analytics,
+  colon,
+}
+
+class MainAfterpage extends StatefulWidget {
   const MainAfterpage({super.key});
+
+  @override
+  State<MainAfterpage> createState() => _MainAfterpageState();
+}
+
+class _MainAfterpageState extends State<MainAfterpage> {
+  DashboardType type = DashboardType.analytics;
+
+  String analyticIcon () {
+    return type == DashboardType.analytics
+        ? 'assets/icons/analytics-selected-icon.svg'
+        : 'assets/icons/analytics-icon.svg';
+  }
+
+  String colonIcon () {
+    return type == DashboardType.colon
+        ? 'assets/icons/note-selected-icon.svg'
+        : 'assets/icons/note-icon.svg';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,20 +74,35 @@ class MainAfterpage extends StatelessWidget {
               )
             ],
           ),
-          const SizedBox(
-            height: 98,
+          SizedBox(
+            height: screenType.name == 'mobile' ? 16 : 82,
           ),
-          SvgPicture.asset(
-            'assets/icons/analytics-icon.svg',
-          ),
-          SvgPicture.asset(
-            'assets/icons/analytics-selected-icon.svg',
-          ),
-          SvgPicture.asset(
-            'assets/icons/note-icon.svg',
-          ),
-          SvgPicture.asset(
-            'assets/icons/note-selected-icon.svg',
+          Row(
+            children: [
+              GestureDetector(
+                child: SvgPicture.asset(
+                  analyticIcon(),
+                ),
+                onTap: () {
+                  setState(() {
+                    type = DashboardType.analytics;
+                  });
+                },
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              GestureDetector(
+                child: SvgPicture.asset(
+                  colonIcon(),
+                ),
+                onTap: () {
+                  setState(() {
+                    type = DashboardType.colon;
+                  });
+                },
+              ),
+            ],
           ),
         ],
       ),
