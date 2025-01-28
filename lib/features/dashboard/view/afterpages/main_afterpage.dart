@@ -1,6 +1,7 @@
 import 'package:dashboard_mvvm_arch/core/utils/screen_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:dashboard_mvvm_arch/features/dashboard/view/widgets/widgets.dart';
 
 enum DashboardType {
   analytics,
@@ -16,6 +17,9 @@ class MainAfterpage extends StatefulWidget {
 
 class _MainAfterpageState extends State<MainAfterpage> {
   DashboardType type = DashboardType.analytics;
+
+  DateTime startDate = DateTime(2024, 11, 1);
+  DateTime endDate = DateTime.now();
 
   String analyticIcon () {
     return type == DashboardType.analytics
@@ -104,6 +108,38 @@ class _MainAfterpageState extends State<MainAfterpage> {
               ),
             ],
           ),
+          SizedBox(
+            height: screenType.name == 'mobile' ? 31 : 24,
+          ),
+           Row(
+            children: [
+              DatePickerView(
+                title: 'Начало:',
+                initialDate: startDate,
+                lastDate: endDate,
+                onDateChanged: (DateTime newDate) {
+                  setState(() {
+                    startDate = newDate;
+                  });
+                  print("Выбрана дата начала: $newDate");
+                },
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              DatePickerView(
+                title: 'Конец:',
+                initialDate: endDate,
+                firstDate: startDate,
+                onDateChanged: (DateTime newDate) {
+                  setState(() {
+                    endDate = newDate;
+                  });
+                  print("Выбрана дата конца: $newDate");
+                },
+              ),
+            ],
+          )
         ],
       ),
     ));
