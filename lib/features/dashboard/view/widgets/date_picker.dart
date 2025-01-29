@@ -70,7 +70,7 @@ class _DatePickerViewState extends State<DatePickerView> {
         Text(
           widget.title,
           style: const TextStyle(
-            fontSize: 12,
+            fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Colors.black,
           ),
@@ -79,7 +79,7 @@ class _DatePickerViewState extends State<DatePickerView> {
         GestureDetector(
           onTap: () => _selectDate(context),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
