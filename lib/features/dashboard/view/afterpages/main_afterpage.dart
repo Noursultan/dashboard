@@ -1,9 +1,37 @@
 import 'package:dashboard_mvvm_arch/core/utils/screen_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:dashboard_mvvm_arch/features/dashboard/view/widgets/widgets.dart';
 
-class MainAfterpage extends StatelessWidget {
+enum DashboardType {
+  analytics,
+  colon,
+}
+
+class MainAfterpage extends StatefulWidget {
   const MainAfterpage({super.key});
+
+  @override
+  State<MainAfterpage> createState() => _MainAfterpageState();
+}
+
+class _MainAfterpageState extends State<MainAfterpage> {
+  DashboardType type = DashboardType.analytics;
+
+  DateTime startDate = DateTime(2024, 11, 1);
+  DateTime endDate = DateTime.now();
+
+  String analyticIcon () {
+    return type == DashboardType.analytics
+        ? 'assets/icons/analytics-selected-icon.svg'
+        : 'assets/icons/analytics-icon.svg';
+  }
+
+  String colonIcon () {
+    return type == DashboardType.colon
+        ? 'assets/icons/note-selected-icon.svg'
+        : 'assets/icons/note-icon.svg';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,21 +78,257 @@ class MainAfterpage extends StatelessWidget {
               )
             ],
           ),
-          const SizedBox(
-            height: 98,
+          SizedBox(
+            height: screenType.name == 'mobile' ? 16 : 82,
           ),
-          SvgPicture.asset(
-            'assets/icons/analytics-icon.svg',
+          Row(
+            children: [
+              GestureDetector(
+                child: SvgPicture.asset(
+                  analyticIcon(),
+                ),
+                onTap: () {
+                  setState(() {
+                    type = DashboardType.analytics;
+                  });
+                },
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              GestureDetector(
+                child: SvgPicture.asset(
+                  colonIcon(),
+                ),
+                onTap: () {
+                  setState(() {
+                    type = DashboardType.colon;
+                  });
+                },
+              ),
+            ],
           ),
-          SvgPicture.asset(
-            'assets/icons/analytics-selected-icon.svg',
+          SizedBox(
+            height: screenType.name == 'mobile' ? 31 : 24,
           ),
-          SvgPicture.asset(
-            'assets/icons/note-icon.svg',
-          ),
-          SvgPicture.asset(
-            'assets/icons/note-selected-icon.svg',
-          ),
+          screenType.name != 'mobile' ? SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 12,
+                  children: [
+                    DatePickerView(
+                      title: 'Начало:',
+                      initialDate: startDate,
+                      lastDate: endDate,
+                      onDateChanged: (DateTime newDate) {
+                        setState(() {
+                          startDate = newDate;
+                        });
+                        print("Выбрана дата начала: $newDate");
+                      },
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    DatePickerView(
+                      title: 'Конец:',
+                      initialDate: endDate,
+                      firstDate: startDate,
+                      onDateChanged: (DateTime newDate) {
+                        setState(() {
+                          endDate = newDate;
+                        });
+                        print("Выбрана дата конца: $newDate");
+                      },
+                    ),
+                    Container(
+                      width: 1.5,
+                      height: 60,
+                      color: Colors.grey.shade300,
+                      margin: const EdgeInsets.symmetric(horizontal: 24),
+                    ),
+                    RoleDropdown(
+                      title: 'Роль пакупателя',
+                      items: const [
+                        'Все роли',
+                        'Businessman',
+                        'Employee',
+                        'Freelancer',
+                        'Retired'
+                      ],
+                      onDateChanged: (String value) {
+                        print(value);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    RoleDropdown(
+                      title: 'Агент',
+                      items: const [
+                        'Все агенты',
+                        'Businessman',
+                        'Employee',
+                        'Freelancer',
+                        'Retired'
+                      ],
+                      onDateChanged: (String value) {
+                        print(value);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    RoleDropdown(
+                      title: 'Страны',
+                      items: const [
+                        'Все страны',
+                        'Businessman',
+                        'Employee',
+                        'Freelancer',
+                        'Retired'
+                      ],
+                      onDateChanged: (String value) {
+                        print(value);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    RoleDropdown(
+                      title: 'Покрытие',
+                      items: const [
+                        'Все',
+                        'Businessman',
+                        'Employee',
+                        'Freelancer',
+                        'Retired'
+                      ],
+                      onDateChanged: (String value) {
+                        print(value);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    RoleDropdown(
+                      title: 'Пакеты',
+                      items: const [
+                        'Все',
+                        'Businessman',
+                        'Employee',
+                        'Freelancer',
+                        'Retired'
+                      ],
+                      onDateChanged: (String value) {
+                        print(value);
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ) :
+           Row(
+            children: [
+              DatePickerView(
+                title: 'Начало:',
+                initialDate: startDate,
+                lastDate: endDate,
+                onDateChanged: (DateTime newDate) {
+                  setState(() {
+                    startDate = newDate;
+                  });
+                  print("Выбрана дата начала: $newDate");
+                },
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              DatePickerView(
+                title: 'Конец:',
+                initialDate: endDate,
+                firstDate: startDate,
+                onDateChanged: (DateTime newDate) {
+                  setState(() {
+                    endDate = newDate;
+                  });
+                  print("Выбрана дата конца: $newDate");
+                },
+              ),
+              Container(
+                width: 1.5,
+                height: 50,
+                color: Colors.grey.shade300,
+                margin: const EdgeInsets.symmetric(horizontal: 24),
+              ),
+              RoleDropdown(
+                title: 'Роль пакупателя',
+                items: const [
+                  'Все роли',
+                  'Businessman',
+                  'Employee',
+                  'Freelancer',
+                  'Retired'
+                ],
+                onDateChanged: (String value) {
+                  print(value);
+                },
+              ),
+              const SizedBox(width: 8),
+              RoleDropdown(
+                title: 'Агент',
+                items: const [
+                  'Все агенты',
+                  'Businessman',
+                  'Employee',
+                  'Freelancer',
+                  'Retired'
+                ],
+                onDateChanged: (String value) {
+                  print(value);
+                },
+              ),
+              const SizedBox(width: 8),
+              RoleDropdown(
+                title: 'Страны',
+                items: const [
+                  'Все страны',
+                  'Businessman',
+                  'Employee',
+                  'Freelancer',
+                  'Retired'
+                ],
+                onDateChanged: (String value) {
+                  print(value);
+                },
+              ),
+              const SizedBox(width: 8),
+              RoleDropdown(
+                title: 'Покрытие',
+                items: const [
+                  'Все',
+                  'Businessman',
+                  'Employee',
+                  'Freelancer',
+                  'Retired'
+                ],
+                onDateChanged: (String value) {
+                  print(value);
+                },
+              ),
+              const SizedBox(width: 8),
+              RoleDropdown(
+                title: 'Пакеты',
+                items: const [
+                  'Все',
+                  'Businessman',
+                  'Employee',
+                  'Freelancer',
+                  'Retired'
+                ],
+                onDateChanged: (String value) {
+                  print(value);
+                },
+              ),
+            ],
+          )
         ],
       ),
     ));
