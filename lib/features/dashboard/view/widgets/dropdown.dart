@@ -13,6 +13,7 @@ class Dropdown extends StatefulWidget {
     required this.items,
     required this.onDateChanged
   });
+
   @override
   _DropdownState createState() => _DropdownState();
 }
@@ -26,6 +27,7 @@ class _DropdownState extends State<Dropdown> {
     super.initState();
     selectedRole = widget.items[0];
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -72,14 +74,13 @@ class _DropdownState extends State<Dropdown> {
               padding: EdgeInsets.symmetric(horizontal: 12),
             ),
             dropdownStyleData: DropdownStyleData(
-              elevation: 4,
-              maxHeight: 200,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              offset: const Offset(0, -16)
-            ),
+                elevation: 4,
+                maxHeight: 200,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                offset: const Offset(0, -16)),
             iconStyleData: IconStyleData(
               icon: Icon(
                 isDropdownOpen ? Icons.expand_less : Icons.expand_more,

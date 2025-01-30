@@ -16,26 +16,26 @@ class MainAfterpage extends StatefulWidget {
 }
 
 class _MainAfterpageState extends State<MainAfterpage> {
-
   final ScrollController _scrollController = ScrollController(); // Создаём контроллер
 
   @override
   void dispose() {
-    _scrollController.dispose(); // Не забываем очистить контроллер
+    _scrollController.dispose();
     super.dispose();
   }
+
   DashboardType type = DashboardType.analytics;
 
   DateTime startDate = DateTime(2024, 11, 1);
   DateTime endDate = DateTime.now();
 
-  String analyticIcon () {
+  String analyticIcon() {
     return type == DashboardType.analytics
         ? 'assets/icons/analytics-selected-icon.svg'
         : 'assets/icons/analytics-icon.svg';
   }
 
-  String colonIcon () {
+  String colonIcon() {
     return type == DashboardType.colon
         ? 'assets/icons/note-selected-icon.svg'
         : 'assets/icons/note-icon.svg';
@@ -44,7 +44,6 @@ class _MainAfterpageState extends State<MainAfterpage> {
   @override
   Widget build(BuildContext context) {
     ScreenType screenType = getScreenType(context);
-
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.only(
@@ -119,7 +118,8 @@ class _MainAfterpageState extends State<MainAfterpage> {
           SizedBox(
             height: screenType.name == 'mobile' ? 31 : 24,
           ),
-           Row(
+
+          Row(
             children: [
               DatePickerView(
                 title: 'Начало:',
@@ -173,7 +173,7 @@ class _MainAfterpageState extends State<MainAfterpage> {
                             print(value);
                           },
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Dropdown(
                           title: 'Агент',
                           items: const ['Все агенты', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
@@ -181,7 +181,7 @@ class _MainAfterpageState extends State<MainAfterpage> {
                             print(value);
                           },
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Dropdown(
                           title: 'Страны',
                           items: const ['Все страны', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
@@ -189,7 +189,7 @@ class _MainAfterpageState extends State<MainAfterpage> {
                             print(value);
                           },
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Dropdown(
                           title: 'Покрытие',
                           items: const ['Все', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
@@ -197,7 +197,7 @@ class _MainAfterpageState extends State<MainAfterpage> {
                             print(value);
                           },
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Dropdown(
                           title: 'Пакеты',
                           items: const ['Все', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
@@ -212,7 +212,7 @@ class _MainAfterpageState extends State<MainAfterpage> {
               ),
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Row(
             children: [
               table(),
