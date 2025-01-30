@@ -49,24 +49,24 @@ class _DropdownViewState extends State<DropdownView> {
             ),
             items: sexItems
                 .map((item) => DropdownMenuItem<String>(
-              value: item['label'],
-              child: Text(
-                item['label'],
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ))
+                      value: item['label'],
+                      child: Text(
+                        item['label'],
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ))
                 .toList(),
             value: selectedSex,
             onChanged: (String? value) {
               setState(() {
                 selectedSex = value;
-                selectedSexValue =
-                sexItems.firstWhere((item) => item['label'] == value)['value'];
+                selectedSexValue = sexItems
+                    .firstWhere((item) => item['label'] == value)['value'];
               });
             },
             buttonStyleData: const ButtonStyleData(
@@ -109,12 +109,11 @@ class RoleDropdown extends StatefulWidget {
 
   final ValueChanged<String> onDateChanged;
 
-  const RoleDropdown({
-    super.key,
-    required this.title,
-    required this.items,
-    required this.onDateChanged
-  });
+  const RoleDropdown(
+      {super.key,
+      required this.title,
+      required this.items,
+      required this.onDateChanged});
   @override
   _RoleDropdownState createState() => _RoleDropdownState();
 }
@@ -128,6 +127,7 @@ class _RoleDropdownState extends State<RoleDropdown> {
     super.initState();
     selectedRole = widget.items[0];
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -174,15 +174,13 @@ class _RoleDropdownState extends State<RoleDropdown> {
               padding: EdgeInsets.symmetric(horizontal: 12),
             ),
             dropdownStyleData: DropdownStyleData(
-              elevation: 4,
-              maxHeight: 200,
-              width: 40,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              offset: const Offset(0, -16)
-            ),
+                elevation: 4,
+                maxHeight: 200,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                offset: const Offset(0, -16)),
             iconStyleData: IconStyleData(
               icon: Icon(
                 isDropdownOpen ? Icons.expand_less : Icons.expand_more,

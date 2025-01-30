@@ -16,18 +16,27 @@ class MainAfterpage extends StatefulWidget {
 }
 
 class _MainAfterpageState extends State<MainAfterpage> {
+  final ScrollController _scrollController =
+      ScrollController(); // Создаём контроллер
+
+  @override
+  void dispose() {
+    _scrollController.dispose(); // Не забываем очистить контроллер
+    super.dispose();
+  }
+
   DashboardType type = DashboardType.analytics;
 
   DateTime startDate = DateTime(2024, 11, 1);
   DateTime endDate = DateTime.now();
 
-  String analyticIcon () {
+  String analyticIcon() {
     return type == DashboardType.analytics
         ? 'assets/icons/analytics-selected-icon.svg'
         : 'assets/icons/analytics-icon.svg';
   }
 
-  String colonIcon () {
+  String colonIcon() {
     return type == DashboardType.colon
         ? 'assets/icons/note-selected-icon.svg'
         : 'assets/icons/note-icon.svg';
@@ -36,7 +45,6 @@ class _MainAfterpageState extends State<MainAfterpage> {
   @override
   Widget build(BuildContext context) {
     ScreenType screenType = getScreenType(context);
-
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.only(
@@ -111,121 +119,7 @@ class _MainAfterpageState extends State<MainAfterpage> {
           SizedBox(
             height: screenType.name == 'mobile' ? 31 : 24,
           ),
-          screenType.name != 'mobile' ? SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 12,
-                  children: [
-                    DatePickerView(
-                      title: 'Начало:',
-                      initialDate: startDate,
-                      lastDate: endDate,
-                      onDateChanged: (DateTime newDate) {
-                        setState(() {
-                          startDate = newDate;
-                        });
-                        print("Выбрана дата начала: $newDate");
-                      },
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    DatePickerView(
-                      title: 'Конец:',
-                      initialDate: endDate,
-                      firstDate: startDate,
-                      onDateChanged: (DateTime newDate) {
-                        setState(() {
-                          endDate = newDate;
-                        });
-                        print("Выбрана дата конца: $newDate");
-                      },
-                    ),
-                    Container(
-                      width: 1.5,
-                      height: 60,
-                      color: Colors.grey.shade300,
-                      margin: const EdgeInsets.symmetric(horizontal: 24),
-                    ),
-                    RoleDropdown(
-                      title: 'Роль пакупателя',
-                      items: const [
-                        'Все роли',
-                        'Businessman',
-                        'Employee',
-                        'Freelancer',
-                        'Retired'
-                      ],
-                      onDateChanged: (String value) {
-                        print(value);
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    RoleDropdown(
-                      title: 'Агент',
-                      items: const [
-                        'Все агенты',
-                        'Businessman',
-                        'Employee',
-                        'Freelancer',
-                        'Retired'
-                      ],
-                      onDateChanged: (String value) {
-                        print(value);
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    RoleDropdown(
-                      title: 'Страны',
-                      items: const [
-                        'Все страны',
-                        'Businessman',
-                        'Employee',
-                        'Freelancer',
-                        'Retired'
-                      ],
-                      onDateChanged: (String value) {
-                        print(value);
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    RoleDropdown(
-                      title: 'Покрытие',
-                      items: const [
-                        'Все',
-                        'Businessman',
-                        'Employee',
-                        'Freelancer',
-                        'Retired'
-                      ],
-                      onDateChanged: (String value) {
-                        print(value);
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    RoleDropdown(
-                      title: 'Пакеты',
-                      items: const [
-                        'Все',
-                        'Businessman',
-                        'Employee',
-                        'Freelancer',
-                        'Retired'
-                      ],
-                      onDateChanged: (String value) {
-                        print(value);
-                      },
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ) :
-           Row(
+          Row(
             children: [
               DatePickerView(
                 title: 'Начало:',
@@ -258,66 +152,103 @@ class _MainAfterpageState extends State<MainAfterpage> {
                 color: Colors.grey.shade300,
                 margin: const EdgeInsets.symmetric(horizontal: 24),
               ),
-              RoleDropdown(
-                title: 'Роль пакупателя',
-                items: const [
-                  'Все роли',
-                  'Businessman',
-                  'Employee',
-                  'Freelancer',
-                  'Retired'
-                ],
-                onDateChanged: (String value) {
-                  print(value);
-                },
+              Expanded(
+                child: Scrollbar(
+                  thumbVisibility: true,
+                  trackVisibility: false,
+                  controller: _scrollController,
+                  thickness: 6,
+                  radius: Radius.circular(10),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    controller: _scrollController,
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        RoleDropdown(
+                          title: 'Роль покупателя',
+                          items: const [
+                            'Все роли',
+                            'Businessman',
+                            'Employee',
+                            'Freelancer',
+                            'Retired'
+                          ],
+                          onDateChanged: (String value) {
+                            print(value);
+                          },
+                        ),
+                        SizedBox(width: 8),
+                        RoleDropdown(
+                          title: 'Агент',
+                          items: const [
+                            'Все агенты',
+                            'Businessman',
+                            'Employee',
+                            'Freelancer',
+                            'Retired'
+                          ],
+                          onDateChanged: (String value) {
+                            print(value);
+                          },
+                        ),
+                        SizedBox(width: 8),
+                        RoleDropdown(
+                          title: 'Страны',
+                          items: const [
+                            'Все страны',
+                            'Businessman',
+                            'Employee',
+                            'Freelancer',
+                            'Retired'
+                          ],
+                          onDateChanged: (String value) {
+                            print(value);
+                          },
+                        ),
+                        SizedBox(width: 8),
+                        RoleDropdown(
+                          title: 'Покрытие',
+                          items: const [
+                            'Все',
+                            'Businessman',
+                            'Employee',
+                            'Freelancer',
+                            'Retired'
+                          ],
+                          onDateChanged: (String value) {
+                            print(value);
+                          },
+                        ),
+                        SizedBox(width: 8),
+                        RoleDropdown(
+                          title: 'Пакеты',
+                          items: const [
+                            'Все',
+                            'Businessman',
+                            'Employee',
+                            'Freelancer',
+                            'Retired'
+                          ],
+                          onDateChanged: (String value) {
+                            print(value);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              const SizedBox(width: 8),
+            ],
+          ),
+          SizedBox(height: 8),
+          Row(
+            children: [
               RoleDropdown(
-                title: 'Агент',
+                title: 'Столбцы',
                 items: const [
-                  'Все агенты',
-                  'Businessman',
-                  'Employee',
-                  'Freelancer',
-                  'Retired'
-                ],
-                onDateChanged: (String value) {
-                  print(value);
-                },
-              ),
-              const SizedBox(width: 8),
-              RoleDropdown(
-                title: 'Страны',
-                items: const [
-                  'Все страны',
-                  'Businessman',
-                  'Employee',
-                  'Freelancer',
-                  'Retired'
-                ],
-                onDateChanged: (String value) {
-                  print(value);
-                },
-              ),
-              const SizedBox(width: 8),
-              RoleDropdown(
-                title: 'Покрытие',
-                items: const [
-                  'Все',
-                  'Businessman',
-                  'Employee',
-                  'Freelancer',
-                  'Retired'
-                ],
-                onDateChanged: (String value) {
-                  print(value);
-                },
-              ),
-              const SizedBox(width: 8),
-              RoleDropdown(
-                title: 'Пакеты',
-                items: const [
-                  'Все',
+                  'Все столбцы',
                   'Businessman',
                   'Employee',
                   'Freelancer',
