@@ -17,10 +17,9 @@ class _tableState extends State<table> {
           children: [
               Row(
                 children: [
-                  Dropdown(
+                  MultiSelectDropdown(
                     title: 'Столбцы',
                     items: const [
-                      'Все столбцы',
                       'Идентификатор Агент/Клиент',
                       'Имя пользователя',
                       'Уникальный номер сим карты \n eSIM ICCID',
@@ -30,7 +29,7 @@ class _tableState extends State<table> {
                       'Цена с добавочной стоимостью \n для агента или клиента',
                       'Чистая прибыль Net Profit'
                     ],
-                    onDateChanged: (String value) {
+                    onSelectionChanged: (value) {
                       print(value);
                     },
                   ),

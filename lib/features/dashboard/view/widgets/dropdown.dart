@@ -71,7 +71,7 @@ class _DropdownState extends State<Dropdown> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.grey.shade400),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
             ),
             dropdownStyleData: DropdownStyleData(
                 elevation: 4,
