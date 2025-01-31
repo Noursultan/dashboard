@@ -16,16 +16,8 @@ class MainAfterpage extends StatefulWidget {
 }
 
 class _MainAfterpageState extends State<MainAfterpage> {
-  final ScrollController _scrollController = ScrollController(); // Создаём контроллер
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
+  final ScrollController _scrollController = ScrollController();
   DashboardType type = DashboardType.analytics;
-
   DateTime startDate = DateTime(2024, 11, 1);
   DateTime endDate = DateTime.now();
 
@@ -39,6 +31,12 @@ class _MainAfterpageState extends State<MainAfterpage> {
     return type == DashboardType.colon
         ? 'assets/icons/note-selected-icon.svg'
         : 'assets/icons/note-icon.svg';
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -90,35 +88,40 @@ class _MainAfterpageState extends State<MainAfterpage> {
           ),
           Row(
             children: [
-              GestureDetector(
-                child: SvgPicture.asset(
-                  analyticIcon(),
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  child: SvgPicture.asset(
+                    analyticIcon(),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      type = DashboardType.analytics;
+                    });
+                  },
                 ),
-                onTap: () {
-                  setState(() {
-                    type = DashboardType.analytics;
-                  });
-                },
               ),
               const SizedBox(
                 width: 12,
               ),
-              GestureDetector(
-                child: SvgPicture.asset(
-                  colonIcon(),
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  child: SvgPicture.asset(
+                    colonIcon(),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      type = DashboardType.colon;
+                    });
+                  },
                 ),
-                onTap: () {
-                  setState(() {
-                    type = DashboardType.colon;
-                  });
-                },
               ),
             ],
           ),
           SizedBox(
             height: screenType.name == 'mobile' ? 31 : 24,
           ),
-
           Row(
             children: [
               DatePickerView(
@@ -168,7 +171,13 @@ class _MainAfterpageState extends State<MainAfterpage> {
                       children: [
                         Dropdown(
                           title: 'Роль покупателя',
-                          items: const ['Все роли', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
+                          items: const [
+                            'Все роли',
+                            'Businessman',
+                            'Employee',
+                            'Freelancer',
+                            'Retired'
+                          ],
                           onDateChanged: (String value) {
                             print(value);
                           },
@@ -176,7 +185,13 @@ class _MainAfterpageState extends State<MainAfterpage> {
                         const SizedBox(width: 8),
                         Dropdown(
                           title: 'Агент',
-                          items: const ['Все агенты', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
+                          items: const [
+                            'Все агенты',
+                            'Businessman',
+                            'Employee',
+                            'Freelancer',
+                            'Retired'
+                          ],
                           onDateChanged: (String value) {
                             print(value);
                           },
@@ -184,7 +199,13 @@ class _MainAfterpageState extends State<MainAfterpage> {
                         const SizedBox(width: 8),
                         Dropdown(
                           title: 'Страны',
-                          items: const ['Все страны', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
+                          items: const [
+                            'Все страны',
+                            'Businessman',
+                            'Employee',
+                            'Freelancer',
+                            'Retired'
+                          ],
                           onDateChanged: (String value) {
                             print(value);
                           },
@@ -192,7 +213,13 @@ class _MainAfterpageState extends State<MainAfterpage> {
                         const SizedBox(width: 8),
                         Dropdown(
                           title: 'Покрытие',
-                          items: const ['Все', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
+                          items: const [
+                            'Все',
+                            'Businessman',
+                            'Employee',
+                            'Freelancer',
+                            'Retired'
+                          ],
                           onDateChanged: (String value) {
                             print(value);
                           },
@@ -200,7 +227,13 @@ class _MainAfterpageState extends State<MainAfterpage> {
                         const SizedBox(width: 8),
                         Dropdown(
                           title: 'Пакеты',
-                          items: const ['Все', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
+                          items: const [
+                            'Все',
+                            'Businessman',
+                            'Employee',
+                            'Freelancer',
+                            'Retired'
+                          ],
                           onDateChanged: (String value) {
                             print(value);
                           },
@@ -214,9 +247,7 @@ class _MainAfterpageState extends State<MainAfterpage> {
           ),
           const SizedBox(height: 8),
           Row(
-            children: [
-              table(),
-            ],
+            children: [DashboardTable()],
           )
         ],
       ),
