@@ -16,12 +16,11 @@ class MainAfterpage extends StatefulWidget {
 }
 
 class _MainAfterpageState extends State<MainAfterpage> {
-  final ScrollController _scrollController =
-      ScrollController(); // Создаём контроллер
+  final ScrollController _scrollController = ScrollController(); // Создаём контроллер
 
   @override
   void dispose() {
-    _scrollController.dispose(); // Не забываем очистить контроллер
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -119,6 +118,7 @@ class _MainAfterpageState extends State<MainAfterpage> {
           SizedBox(
             height: screenType.name == 'mobile' ? 31 : 24,
           ),
+
           Row(
             children: [
               DatePickerView(
@@ -166,71 +166,41 @@ class _MainAfterpageState extends State<MainAfterpage> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        RoleDropdown(
+                        Dropdown(
                           title: 'Роль покупателя',
-                          items: const [
-                            'Все роли',
-                            'Businessman',
-                            'Employee',
-                            'Freelancer',
-                            'Retired'
-                          ],
+                          items: const ['Все роли', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
                           onDateChanged: (String value) {
                             print(value);
                           },
                         ),
-                        SizedBox(width: 8),
-                        RoleDropdown(
+                        const SizedBox(width: 8),
+                        Dropdown(
                           title: 'Агент',
-                          items: const [
-                            'Все агенты',
-                            'Businessman',
-                            'Employee',
-                            'Freelancer',
-                            'Retired'
-                          ],
+                          items: const ['Все агенты', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
                           onDateChanged: (String value) {
                             print(value);
                           },
                         ),
-                        SizedBox(width: 8),
-                        RoleDropdown(
+                        const SizedBox(width: 8),
+                        Dropdown(
                           title: 'Страны',
-                          items: const [
-                            'Все страны',
-                            'Businessman',
-                            'Employee',
-                            'Freelancer',
-                            'Retired'
-                          ],
+                          items: const ['Все страны', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
                           onDateChanged: (String value) {
                             print(value);
                           },
                         ),
-                        SizedBox(width: 8),
-                        RoleDropdown(
+                        const SizedBox(width: 8),
+                        Dropdown(
                           title: 'Покрытие',
-                          items: const [
-                            'Все',
-                            'Businessman',
-                            'Employee',
-                            'Freelancer',
-                            'Retired'
-                          ],
+                          items: const ['Все', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
                           onDateChanged: (String value) {
                             print(value);
                           },
                         ),
-                        SizedBox(width: 8),
-                        RoleDropdown(
+                        const SizedBox(width: 8),
+                        Dropdown(
                           title: 'Пакеты',
-                          items: const [
-                            'Все',
-                            'Businessman',
-                            'Employee',
-                            'Freelancer',
-                            'Retired'
-                          ],
+                          items: const ['Все', 'Businessman', 'Employee', 'Freelancer', 'Retired'],
                           onDateChanged: (String value) {
                             print(value);
                           },
@@ -242,22 +212,10 @@ class _MainAfterpageState extends State<MainAfterpage> {
               ),
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Row(
             children: [
-              RoleDropdown(
-                title: 'Столбцы',
-                items: const [
-                  'Все столбцы',
-                  'Businessman',
-                  'Employee',
-                  'Freelancer',
-                  'Retired'
-                ],
-                onDateChanged: (String value) {
-                  print(value);
-                },
-              ),
+              table(),
             ],
           )
         ],
