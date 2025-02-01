@@ -9,24 +9,16 @@ part 'login_bloc.freezed.dart';
 
 class LoginBloc extends AutoBloc<LoginEvent, LoginState> {
   final _authRemoteRepository = AuthRemoteRepository();
+
   LoginBloc() : super(const LoginState.initial()) {
     on<_GetStarted>((event, emit) async {
       emit(const LoginState.loading());
-      try {
-        print(
-            'before access_token ${SharedPrefStorage.instance.getString('access_token')}');
-        final response =
-            await _authRemoteRepository.login(reqModel: event.reqModel);
-        await SharedPrefStorage.instance
-            .setString('access_token', response.access);
-        await SharedPrefStorage.instance
-            .setString('refresh_token', response.refresh);
-        print(
-            'access_token ${SharedPrefStorage.instance.getString('access_token')}');
-        emit(const LoginState.success());
-      } catch (error) {
-        add(GenericEvent.responseError(error.toString()));
-      }
+      final storage = await SharedPrefStorage.getInstance();
+      final response =
+          await _authRemoteRepository.login(reqModel: event.reqModel);
+      await storage.setString('access_token', response.access);
+      await storage.setString('refresh_token', response.refresh);
+      emit(const LoginState.success());
     });
   }
 
