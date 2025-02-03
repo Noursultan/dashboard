@@ -166,44 +166,97 @@ class _MainAfterpageState extends State<MainAfterpage> {
                 )
               ],
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              children: [
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    child: SvgPicture.asset(
-                      analyticIcon(),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        type = DashboardType.analytics;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    child: SvgPicture.asset(
-                      colonIcon(),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        type = DashboardType.colon;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
             SizedBox(
               height: screenType.name == 'mobile' ? 31 : 24,
+            ),
+            Scrollbar(
+              thumbVisibility: true,
+              trackVisibility: false,
+              controller: _scrollController,
+              thickness: 6,
+              radius: const Radius.circular(10),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                controller: _scrollController,
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Dropdown(
+                      title: 'Роль покупателя',
+                      items: const [
+                        'Все роли',
+                        'Businessman',
+                        'Employee',
+                        'Freelancer',
+                        'Retired'
+                      ],
+                      onDateChanged: (String value) {
+                        print(value);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    Dropdown(
+                      title: 'Агент',
+                      items: const [
+                        'Все агенты',
+                        'Businessman',
+                        'Employee',
+                        'Freelancer',
+                        'Retired'
+                      ],
+                      onDateChanged: (String value) {
+                        print(value);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    Dropdown(
+                      title: 'Страны',
+                      items: const [
+                        'Все страны',
+                        'Businessman',
+                        'Employee',
+                        'Freelancer',
+                        'Retired'
+                      ],
+                      onDateChanged: (String value) {
+                        print(value);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    Dropdown(
+                      title: 'Покрытие',
+                      items: const [
+                        'Все',
+                        'Businessman',
+                        'Employee',
+                        'Freelancer',
+                        'Retired'
+                      ],
+                      onDateChanged: (String value) {
+                        print(value);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    Dropdown(
+                      title: 'Пакеты',
+                      items: const [
+                        'Все',
+                        'Businessman',
+                        'Employee',
+                        'Freelancer',
+                        'Retired'
+                      ],
+                      onDateChanged: (String value) {
+                        print(value);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 16,
             ),
             Row(
               children: [
@@ -238,97 +291,45 @@ class _MainAfterpageState extends State<MainAfterpage> {
                   color: Colors.grey.shade300,
                   margin: const EdgeInsets.symmetric(horizontal: 24),
                 ),
-                Expanded(
-                  child: Scrollbar(
-                    thumbVisibility: true,
-                    trackVisibility: false,
-                    controller: _scrollController,
-                    thickness: 6,
-                    radius: Radius.circular(10),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Dropdown(
-                            title: 'Роль покупателя',
-                            items: const [
-                              'Все роли',
-                              'Businessman',
-                              'Employee',
-                              'Freelancer',
-                              'Retired'
-                            ],
-                            onDateChanged: (String value) {
-                              print(value);
-                            },
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: Row(
+                    children: [
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          child: SvgPicture.asset(
+                            analyticIcon(),
                           ),
-                          const SizedBox(width: 8),
-                          Dropdown(
-                            title: 'Агент',
-                            items: const [
-                              'Все агенты',
-                              'Businessman',
-                              'Employee',
-                              'Freelancer',
-                              'Retired'
-                            ],
-                            onDateChanged: (String value) {
-                              print(value);
-                            },
-                          ),
-                          const SizedBox(width: 8),
-                          Dropdown(
-                            title: 'Страны',
-                            items: const [
-                              'Все страны',
-                              'Businessman',
-                              'Employee',
-                              'Freelancer',
-                              'Retired'
-                            ],
-                            onDateChanged: (String value) {
-                              print(value);
-                            },
-                          ),
-                          const SizedBox(width: 8),
-                          Dropdown(
-                            title: 'Покрытие',
-                            items: const [
-                              'Все',
-                              'Businessman',
-                              'Employee',
-                              'Freelancer',
-                              'Retired'
-                            ],
-                            onDateChanged: (String value) {
-                              print(value);
-                            },
-                          ),
-                          const SizedBox(width: 8),
-                          Dropdown(
-                            title: 'Пакеты',
-                            items: const [
-                              'Все',
-                              'Businessman',
-                              'Employee',
-                              'Freelancer',
-                              'Retired'
-                            ],
-                            onDateChanged: (String value) {
-                              print(value);
-                            },
-                          ),
-                        ],
+                          onTap: () {
+                            setState(() {
+                              type = DashboardType.analytics;
+                            });
+                          },
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          child: SvgPicture.asset(
+                            colonIcon(),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              type = DashboardType.colon;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             DashboardTable(data: data),
           ],
         ),

@@ -47,7 +47,7 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
             color: Colors.black,
           ),
         ),
-
+        const SizedBox(height: 8),
         ConstrainedBox(
           constraints: const BoxConstraints(
             minWidth: 140,
