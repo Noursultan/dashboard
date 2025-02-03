@@ -1,107 +1,114 @@
 import 'package:flutter/material.dart';
+import 'package:dashboard_mvvm_arch/features/dashboard/models/models.dart';
 import 'widgets.dart';
 
-class OrderRow {
-  final String agentClient; // "Агент" / "Клиент"
-  final String userName; // "111@ww.ww"
-  final String eSimIccid; // "8985235052452007668"
-  final String airaloOrderId; // "20241110-336662"
-  final String coverageTitle; // "Spain"
-  final String packageId; // "guay-mobile-15days-2gb"
-  final double netPrice; // 2.7
-  final double agentPrice; // 6.5
-  final double netProfit; // 3.8
+class TableColumnDefinition<T> {
+  final String label;
+  final String key;
+  final String Function(T row) valueBuilder;
 
-  OrderRow({
-    required this.agentClient,
-    required this.userName,
-    required this.eSimIccid,
-    required this.airaloOrderId,
-    required this.coverageTitle,
-    required this.packageId,
-    required this.netPrice,
-    required this.agentPrice,
-    required this.netProfit,
+  TableColumnDefinition({
+    required this.label,
+    required this.key,
+    required this.valueBuilder,
   });
 }
 
 class DashboardTable extends StatefulWidget {
-  const DashboardTable({super.key});
+
+  final List<OrderRow> data;
+
+  const DashboardTable({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
 
   @override
   State<DashboardTable> createState() => _DashboardTableState();
 }
 
 class _DashboardTableState extends State<DashboardTable> {
-  final List<OrderRow> data = [
-    OrderRow(
-      agentClient: 'Агент',
-      userName: '111@ww.ww',
-      eSimIccid: '8985235052452007668',
-      airaloOrderId: '20241110-336662',
-      coverageTitle: 'Spain',
-      packageId: 'guay-mobile-15days-2gb',
-      netPrice: 2.7,
-      agentPrice: 6.5,
-      netProfit: 3.8,
+
+  final List<TableColumnDefinition<OrderRow>> allColumns = [
+    TableColumnDefinition<OrderRow>(
+      label: 'Идентификатор\nАгент/Клиент',
+      key: 'agentClient',
+      valueBuilder: (row) => row.agentClient,
     ),
-    OrderRow(
-      agentClient: 'Агент',
-      userName: '111@ww.ww',
-      eSimIccid: '8985235052452007668',
-      airaloOrderId: '20241110-336662',
-      coverageTitle: 'Spain',
-      packageId: 'guay-mobile-15days-2gb',
-      netPrice: 2.7,
-      agentPrice: 6.5,
-      netProfit: 3.8,
+    TableColumnDefinition<OrderRow>(
+      label: 'Имя пользователя',
+      key: 'userName',
+      valueBuilder: (row) => row.userName,
     ),
-    OrderRow(
-      agentClient: 'Агент',
-      userName: '111@ww.ww',
-      eSimIccid: '8985235052452007668',
-      airaloOrderId: '20241110-336662',
-      coverageTitle: 'Spain',
-      packageId: 'guay-mobile-15days-2gb',
-      netPrice: 2.7,
-      agentPrice: 6.5,
-      netProfit: 3.8,
+    TableColumnDefinition<OrderRow>(
+      label: 'Уникальный номер\nSIM карты ICCID',
+      key: 'iccid',
+      valueBuilder: (row) => row.eSimIccid,
     ),
-    OrderRow(
-      agentClient: 'Клиент',
-      userName: '111@ww.ww',
-      eSimIccid: '8985235052452007668',
-      airaloOrderId: '20241110-336662',
-      coverageTitle: 'Spain',
-      packageId: 'guay-mobile-15days-2gb',
-      netPrice: 8.5,
-      agentPrice: 0,
-      // здесь 0, если у «клиента» нет наценки
-      netProfit: 8.5,
+    TableColumnDefinition<OrderRow>(
+      label: 'Идентификатор заказа \nот Airalo \nOrder ID from Airalo',
+      key: 'orderId',
+      valueBuilder: (row) => row.airaloOrderId,
+    ),
+    TableColumnDefinition<OrderRow>(
+      label: 'Название покрытия \nCoverage Title',
+      key: 'coverageTitle',
+      valueBuilder: (row) => row.coverageTitle,
+    ),
+    TableColumnDefinition<OrderRow>(
+      label: 'Идентификатор\nпакета Package ID',
+      key: 'packageId',
+      valueBuilder: (row) => row.packageId,
+    ),
+    TableColumnDefinition<OrderRow>(
+      label: 'Чистая цена\nза единицу от Айрало\nNet Price',
+      key: 'netPrice',
+      valueBuilder: (row) => row.netPrice.toString(),
+    ),
+    TableColumnDefinition<OrderRow>(
+      label: 'Цена с \nдобавочной \nстоимостью\n(Agent Price)',
+      key: 'agentPrice',
+      valueBuilder: (row) => row.agentPrice.toString(),
+    ),
+    TableColumnDefinition<OrderRow>(
+      label: 'Чистая прибыль\nNet Profit',
+      key: 'netProfit',
+      valueBuilder: (row) => row.netProfit.toString(),
     ),
   ];
 
-  double get totalNetProfit => data.fold(0, (sum, row) => sum + row.netProfit);
+  Set<String> selectedColumns = {
+    'agentClient',
+    'userName',
+    'iccid',
+    'orderId',
+    'coverageTitle',
+    'packageId',
+    'netPrice',
+    'agentPrice',
+    'netProfit',
+  };
+
+  double get totalNetProfit => widget.data.fold(0, (sum, row) => sum + row.netProfit);
 
   @override
   Widget build(BuildContext context) {
+    final visibleColumns = allColumns
+        .where((col) => selectedColumns.contains(col.key))
+        .toList();
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(
         children: [
           MultiSelectDropdown(
             title: 'Столбцы',
-            items: const [
-              'Идентификатор Агент/Клиент',
-              'Имя пользователя',
-              'Уникальный номер сим карты \n eSIM ICCID',
-              'Идентификатор заказа от Airalo \n Order ID from Airalo',
-              'Название покрытия Coverage Title',
-              'Чистая цена за единицу от \n Айрало Net Price',
-              'Цена с добавочной стоимостью \n для агента или клиента',
-              'Чистая прибыль Net Profit'
-            ],
-            onSelectionChanged: (value) {
-              print(value);
+            items: allColumns.map((col) => col.label).toList(),
+            onSelectionChanged: (List<String> labels) {
+              setState(() {
+                selectedColumns = allColumns
+                    .where((col) => labels.contains(col.label))
+                    .map((col) => col.key)
+                    .toSet();
+              });
             },
           ),
         ],
@@ -115,109 +122,48 @@ class _DashboardTableState extends State<DashboardTable> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Color(0xFFE6E6E6)),
+              border: Border.all(color: const Color(0xFFE6E6E6)),
             ),
-            columns: const [
-              DataColumn(label: Text(
-                'Идентификатор\nАгент/Клиент',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black
-                )
-              )),
-              DataColumn(label: Text(
-                  'Имя пользователя',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black
-                  )
-              )),
-              DataColumn(label: Text(
-                  'Уникальный номер\nSIM карты ICCID',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black
-                  )
-              )),
-              DataColumn(label: Text(
-                  'Идентификатор заказа \nот Airalo \nOrder ID from Airalo',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black
-                  )
-              )),
-              DataColumn(label: Text(
-                  'Название покрытия \nCoverage Title',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black
-                  )
-              )),
-              DataColumn(label: Text(
-                  'Идентификатор\n пакета Package ID',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black
-                  )
-              )),
-              DataColumn(label: Text(
-                  'Чистая цена\nза единицу от \nАйралоNet Price',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black
-                  )
-              )),
-              DataColumn(label: Text(
-                  'Цена с \nдобавочной \nстоимостью для агента или \nклиента',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black
-                  )
-              )),
-              DataColumn(label: Text(
-                  'Чистая прибыль\nNet Profit',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black
-                  )
-              )),
-            ],
+            columns: visibleColumns
+                .map((col) => DataColumn(
+              label: Text(
+                col.label,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+            ))
+                .toList(),
             rows: [
-              ...data.map((row) => DataRow(cells: [
-                    DataCell(Text(row.agentClient)),
-                    DataCell(Text(row.userName)),
-                    DataCell(Text(row.eSimIccid)),
-                    DataCell(Text(row.airaloOrderId)),
-                    DataCell(Text(row.coverageTitle)),
-                    DataCell(Text(row.packageId)),
-                    DataCell(Text(row.netPrice.toString())),
-                    DataCell(Text(row.agentPrice.toString())),
-                    DataCell(Text(row.netProfit.toString())),
-                  ])),
+              ...widget.data.map(
+                    (row) => DataRow(
+                  cells: visibleColumns
+                      .map((col) => DataCell(Text(col.valueBuilder(row))))
+                      .toList(),
+                ),
+              ),
               DataRow(
-                  color: MaterialStateProperty.all(Colors.grey.shade200),
-                  cells: [
-                    DataCell(Text('Итого\n(Total price)',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                    DataCell(Text('')),
-                    DataCell(Text('')),
-                    DataCell(Text('')),
-                    DataCell(Text('')),
-                    DataCell(Text('')),
-                    DataCell(Text('')),
-                    DataCell(Text('')),
-                    DataCell(Text(totalNetProfit.toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                  ]),
+                color: MaterialStateProperty.all(Colors.grey.shade200),
+                cells: visibleColumns.map((col) {
+                  if (col.key == 'netProfit') {
+                    return DataCell(
+                      Text(
+                        totalNetProfit.toString(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  } else if (col.key == 'agentClient') {
+                    return const DataCell(Text(
+                      'Итого\n(Total price)',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ));
+                  } else {
+                    return const DataCell(Text(''));
+                  }
+                }).toList(),
+              ),
             ]),
       ),
     ]);

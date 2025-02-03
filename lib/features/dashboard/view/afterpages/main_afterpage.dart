@@ -2,6 +2,7 @@ import 'package:dashboard_mvvm_arch/core/utils/screen_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:dashboard_mvvm_arch/features/dashboard/view/widgets/widgets.dart';
+import 'package:dashboard_mvvm_arch/features/dashboard/models/models.dart';
 
 enum DashboardType {
   analytics,
@@ -32,6 +33,86 @@ class _MainAfterpageState extends State<MainAfterpage> {
         ? 'assets/icons/note-selected-icon.svg'
         : 'assets/icons/note-icon.svg';
   }
+
+  final List<OrderRow> data = [
+    OrderRow(
+      agentClient: 'Агент',
+      userName: '111@ww.ww',
+      eSimIccid: '8985235052452007668',
+      airaloOrderId: '20241110-336662',
+      coverageTitle: 'Spain',
+      packageId: 'guay-mobile-15days-2gb',
+      netPrice: 2.7,
+      agentPrice: 6.5,
+      netProfit: 3.8,
+    ),
+    OrderRow(
+      agentClient: 'Агент',
+      userName: '111@ww.ww',
+      eSimIccid: '8985235052452007668',
+      airaloOrderId: '20241110-336662',
+      coverageTitle: 'Spain',
+      packageId: 'guay-mobile-15days-2gb',
+      netPrice: 2.7,
+      agentPrice: 6.5,
+      netProfit: 3.8,
+    ),
+    OrderRow(
+      agentClient: 'Агент',
+      userName: '111@ww.ww',
+      eSimIccid: '8985235052452007668',
+      airaloOrderId: '20241110-336662',
+      coverageTitle: 'Spain',
+      packageId: 'guay-mobile-15days-2gb',
+      netPrice: 2.7,
+      agentPrice: 6.5,
+      netProfit: 3.8,
+    ),
+    OrderRow(
+      agentClient: 'Клиент',
+      userName: '111@ww.ww',
+      eSimIccid: '8985235052452007668',
+      airaloOrderId: '20241110-336662',
+      coverageTitle: 'Spain',
+      packageId: 'guay-mobile-15days-2gb',
+      netPrice: 8.5,
+      agentPrice: 0,
+      netProfit: 8.5,
+    ),
+    OrderRow(
+      agentClient: 'Клиент',
+      userName: '111@ww.ww',
+      eSimIccid: '8985235052452007668',
+      airaloOrderId: '20241110-336662',
+      coverageTitle: 'Spain',
+      packageId: 'guay-mobile-15days-2gb',
+      netPrice: 8.5,
+      agentPrice: 0,
+      netProfit: 8.5,
+    ),
+    OrderRow(
+      agentClient: 'Клиент',
+      userName: '111@ww.ww',
+      eSimIccid: '8985235052452007668',
+      airaloOrderId: '20241110-336662',
+      coverageTitle: 'Spain',
+      packageId: 'guay-mobile-15days-2gb',
+      netPrice: 8.5,
+      agentPrice: 0,
+      netProfit: 8.5,
+    ),
+    OrderRow(
+      agentClient: 'Клиент',
+      userName: '111@ww.ww',
+      eSimIccid: '8985235052452007668',
+      airaloOrderId: '20241110-336662',
+      coverageTitle: 'Spain',
+      packageId: 'guay-mobile-15days-2gb',
+      netPrice: 8.5,
+      agentPrice: 0,
+      netProfit: 8.5,
+    ),
+  ];
 
   @override
   void dispose() {
@@ -85,7 +166,7 @@ class _MainAfterpageState extends State<MainAfterpage> {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Row(
@@ -248,7 +329,7 @@ class _MainAfterpageState extends State<MainAfterpage> {
               ],
             ),
             const SizedBox(height: 8),
-            DashboardTable(),
+            DashboardTable(data: data),
           ],
         ),
       ),
