@@ -55,6 +55,10 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton2(
+              buttonStyleData: ButtonStyleData(
+                  decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+              )),
               customButton: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
@@ -83,7 +87,7 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
               ),
               items: [
                 ...widget.items.map(
-                      (String item) => DropdownMenuItem<String>(
+                  (String item) => DropdownMenuItem<String>(
                     value: item,
                     enabled: false,
                     child: StatefulBuilder(
@@ -126,10 +130,10 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
   }
 
   Widget _buildMenuItem(
-      String item,
-      bool isSelected,
-      void Function(void Function()) menuSetState,
-      ) {
+    String item,
+    bool isSelected,
+    void Function(void Function()) menuSetState,
+  ) {
     return ConstrainedBox(
       constraints: const BoxConstraints(minWidth: 200, maxWidth: 250),
       child: Padding(

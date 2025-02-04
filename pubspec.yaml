@@ -22,6 +22,7 @@ dependencies:
   flutter_svg: ^2.0.16
   pretty_dio_logger: ^1.4.0
   dropdown_button2: ^2.3.9
+  fl_chart: ^0.70.2
 
 dev_dependencies:
   flutter_test:

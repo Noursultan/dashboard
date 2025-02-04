@@ -1,3 +1,3 @@
 class ServerConstants {
-  static String serverURL = 'https://api.cashflow.kg';
+  static String serverURL = 'https://api.izdesim.online/api/v1';
 }
