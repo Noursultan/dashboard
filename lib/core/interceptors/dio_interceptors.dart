@@ -86,7 +86,7 @@ Future<String?> _refreshToken() async {
     }
 
     final response = await dio.post(
-      '${ServerConstants.serverURL}/moses/token/refresh/',
+      '${ServerConstants.serverURL}/users/token/refresh/',
       data: {'refresh': refreshToken},
     );
 
