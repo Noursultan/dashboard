@@ -114,6 +114,17 @@ class _MainAfterpageState extends State<MainAfterpage> {
     ),
   ];
 
+  // temporary data for a chart
+  List<double> weeklySummary = [
+    23.55,
+    2323.555,
+    898.55,
+    2323.777,
+    433.23,
+    111.77,
+    8886.66
+  ];
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -336,8 +347,19 @@ class _MainAfterpageState extends State<MainAfterpage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-              DashboardTable(data: data),
+              const SizedBox(height: 26),
+              type == DashboardType.colon
+                  ? DashboardTable(data: data)
+                  : SizedBox(
+                      height: 300,
+                      width: double.infinity,
+                      child: BarGraph(
+                        weeklySummary: weeklySummary,
+                      ),
+                    ),
+              const SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),
