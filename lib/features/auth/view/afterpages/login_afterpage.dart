@@ -106,7 +106,8 @@ class _LoginAfterpageState extends State<LoginAfterpage> {
                             AutoRouter.of(context)
                                 .replaceAll([const MainRoute()]);
                           } else if (state is LoginStateError) {
-                            print('sdfsdfsdf');
+                            print(
+                                'sdfsdfsdfjjkkjkjjkkjkjlghkjhkggkjgkjgjgkjhgjkgjkgkgkjgjg');
                           }
                         },
                         builder: (context, state) {

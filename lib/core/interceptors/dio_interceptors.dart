@@ -1,10 +1,7 @@
-// import 'dart:developer';
-
 import 'package:dashboard_mvvm_arch/core/storage/shared_pref_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:dashboard_mvvm_arch/core/auto_bloc/auto_bloc.dart';
 import 'package:dashboard_mvvm_arch/core/constants/server_constants.dart';
-import 'package:dashboard_mvvm_arch/core/router/router.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:flutter/foundation.dart';
 
@@ -39,10 +36,7 @@ Dio createAnonymousDio() {
 }
 
 Dio createAuthorizedDio() {
-  // log('createAuthorizedDio: method called');
-
   final dio = createDio();
-  final appRouter = AppRouter();
 
   dio.interceptors.add(
     InterceptorsWrapper(
@@ -51,25 +45,8 @@ Dio createAuthorizedDio() {
         final token = await storage.getString('access_token');
         if (token != null && token.isNotEmpty) {
           options.headers["Authorization"] = 'Bearer $token';
-          // log('Authorization header updated: $token');
         }
         return handler.next(options);
-      },
-      onError: (error, handler) async {
-        if (error.response?.statusCode == 401) {
-          // log('Unauthorized, attempting to refresh token 1...');
-          final newAccessToken = await _refreshToken();
-          if (newAccessToken != null) {
-            error.requestOptions.headers["Authorization"] =
-                "Bearer $newAccessToken";
-            final cloneReq = await dio.fetch(error.requestOptions);
-            return handler.resolve(cloneReq);
-          } else {
-            // log('Token refresh failed, redirecting to login.');
-            appRouter.replaceAll([const LoginRoute()]);
-          }
-        }
-        return handler.next(error);
       },
     ),
   );
@@ -90,13 +67,11 @@ Future<String?> _refreshToken() async {
   _isRefreshing = true;
 
   try {
-    // log('Refreshing token...');
     final dio = createDio();
     final storage = await SharedPrefStorage.getInstance();
     final refreshToken = await storage.getString('refresh_token');
 
     if (refreshToken == null || refreshToken.isEmpty) {
-      // log('Refresh token is missing or empty.');
       return null;
     }
 
@@ -105,19 +80,16 @@ Future<String?> _refreshToken() async {
       data: {'refresh': refreshToken},
     );
 
-    if (response.data is Map && response.data['data'] != null) {
-      final newAccessToken = response.data['data']['access'];
+    if (response.data is Map && response.data != null) {
+      final newAccessToken = response.data['access'];
       response.requestOptions.headers['Authorization'] =
           'Bearer $newAccessToken';
       await storage.setString('access_token', newAccessToken);
-      // log('Access token refreshed successfully: $newAccessToken');
       return newAccessToken;
     } else {
-      // log('Unexpected response format: ${response.data}');
       return null;
     }
   } catch (exception) {
-    // log('Exception while refreshing token: $exception');
     final storage = await SharedPrefStorage.getInstance();
     await storage.clear();
     return null;
@@ -133,7 +105,6 @@ Future<Response> validateResponse(
   if (successCodes.contains(response.statusCode)) return response;
 
   if (response.statusCode == 401) {
-    // log('Unauthorized, attempting to refresh token 2...');
     final newAccessToken = await _refreshToken();
 
     if (newAccessToken != null) {
@@ -161,8 +132,19 @@ Future<Response> validateResponse(
     }
   }
 
+  String errorMessage = response.data.toString();
+
+  if (response.data != null &&
+      response.data['errors'] != null &&
+      response.data['errors'] is List) {
+    final error = response.data['errors'][0];
+    if (error is Map && error['code'] != null) {
+      errorMessage = error['code'];
+    }
+  }
+
   throw ResponseError(
-    message: response.data.toString(),
+    message: errorMessage,
     statusCode: response.statusCode,
     data: response.data,
   );
