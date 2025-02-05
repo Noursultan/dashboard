@@ -1,5 +1,7 @@
 import 'package:dashboard_mvvm_arch/core/utils/screen_type.dart';
+import 'package:dashboard_mvvm_arch/features/dashboard/blocs/get_balance_bloc/get_balance_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:dashboard_mvvm_arch/features/dashboard/view/widgets/widgets.dart';
 import 'package:dashboard_mvvm_arch/features/dashboard/models/models.dart';
@@ -21,6 +23,12 @@ class _MainAfterpageState extends State<MainAfterpage> {
   DashboardType type = DashboardType.analytics;
   DateTime startDate = DateTime(2024, 11, 1);
   DateTime endDate = DateTime.now();
+
+  @override
+  void initState() {
+    context.read<GetBalanceBloc>().add(const GetBalanceEvent.getStarted());
+    super.initState();
+  }
 
   String analyticIcon() {
     return type == DashboardType.analytics
@@ -162,25 +170,35 @@ class _MainAfterpageState extends State<MainAfterpage> {
                         fontWeight: FontWeight.w700,
                         color: Colors.black),
                   ),
-                  RichText(
-                    text: TextSpan(
-                      text: 'Баланс: ',
-                      style: TextStyle(
-                        color: const Color.fromRGBO(128, 128, 128, 0.55),
-                        fontSize: screenType.name == 'mobile' ? 17 : 18.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: '10000\$',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: screenType.name == 'mobile' ? 17 : 18.0,
-                            fontWeight: FontWeight.bold,
+                  BlocConsumer<GetBalanceBloc, GetBalanceState>(
+                    listener: (context, state) {},
+                    builder: (context, state) {
+                      if (state is GetBalanceStateSuccess) {
+                        return RichText(
+                          text: TextSpan(
+                            text: 'Баланс: ',
+                            style: TextStyle(
+                              color: const Color.fromRGBO(128, 128, 128, 0.55),
+                              fontSize: screenType.name == 'mobile' ? 17 : 18.0,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                    '${state.resp.balances.availableBalance.amount}${state.resp.balances.availableBalance.currency}',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize:
+                                      screenType.name == 'mobile' ? 17 : 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
                   )
                 ],
               ),
