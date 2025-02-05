@@ -1,5 +1,5 @@
 import 'package:dashboard_mvvm_arch/core/utils/screen_type.dart';
-import 'package:dashboard_mvvm_arch/features/dashboard/blocs/get_balance_bloc/get_balance_bloc.dart';
+import 'package:dashboard_mvvm_arch/features/dashboard/blocs/balance_bloc/balance_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,7 +26,7 @@ class _MainAfterpageState extends State<MainAfterpage> {
 
   @override
   void initState() {
-    context.read<GetBalanceBloc>().add(const GetBalanceEvent.getStarted());
+    context.read<BalanceBloc>().add(const BalanceEvent.getStarted());
     super.initState();
   }
 
@@ -170,10 +170,10 @@ class _MainAfterpageState extends State<MainAfterpage> {
                         fontWeight: FontWeight.w700,
                         color: Colors.black),
                   ),
-                  BlocConsumer<GetBalanceBloc, GetBalanceState>(
+                  BlocConsumer<BalanceBloc, BalanceState>(
                     listener: (context, state) {},
                     builder: (context, state) {
-                      if (state is GetBalanceStateSuccess) {
+                      if (state is BalanceStateSuccess) {
                         return RichText(
                           text: TextSpan(
                             text: 'Баланс: ',

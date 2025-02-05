@@ -25,7 +25,7 @@ class _LoginAfterpageState extends State<LoginAfterpage> {
 
   @override
   void initState() {
-    _password = TextEditingController(text: '123');
+    _password = TextEditingController(text: '123w');
     _email = TextEditingController(text: 'admin@admin.com');
     super.initState();
   }
@@ -106,7 +106,7 @@ class _LoginAfterpageState extends State<LoginAfterpage> {
                             AutoRouter.of(context)
                                 .replaceAll([const MainRoute()]);
                           } else if (state is LoginStateError) {
-                            log('Error message: ${state.message}');
+                            print('sdfsdfsdf');
                           }
                         },
                         builder: (context, state) {

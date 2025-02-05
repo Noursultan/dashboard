@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'get_balance_model.freezed.dart';
-part 'get_balance_model.g.dart';
+part 'balance_model.freezed.dart';
+part 'balance_model.g.dart';
 
 @freezed
 class GetBalanceModel with _$GetBalanceModel {

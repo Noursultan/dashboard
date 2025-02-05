@@ -1,4 +1,4 @@
-import 'package:dashboard_mvvm_arch/features/dashboard/models/get_balance_model/get_balance_model.dart';
+import 'package:dashboard_mvvm_arch/features/dashboard/models/balance_model/balance_model.dart';
 import 'package:dio/dio.dart';
 import 'package:dashboard_mvvm_arch/core/interceptors/dio_interceptors.dart';
 
