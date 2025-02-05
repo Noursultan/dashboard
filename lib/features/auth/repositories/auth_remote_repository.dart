@@ -17,9 +17,9 @@ class AuthRemoteRepository {
   }) async {
     final reqJsonModel = reqModel.toJson();
     final response =
-        await _anonymousDio.post('/moses/token/obtain/', data: reqJsonModel);
+        await _anonymousDio.post('/moder/login/', data: reqJsonModel);
     validateResponse(response);
-    final resFromJsonModel = LoginResponseModel.fromJson(response.data);
+    final resFromJsonModel = LoginResponseModel.fromJson(response.data['data']);
     return resFromJsonModel;
   }
 }

@@ -20,11 +20,8 @@ LoginRequestModel _$LoginRequestModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LoginRequestModel {
-  @JsonKey(name: 'phone_number')
-  String get phoneNumber => throw _privateConstructorUsedError;
-  String get otp => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
-  String get domain => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
 
   /// Serializes this LoginRequestModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,11 +39,7 @@ abstract class $LoginRequestModelCopyWith<$Res> {
           LoginRequestModel value, $Res Function(LoginRequestModel) then) =
       _$LoginRequestModelCopyWithImpl<$Res, LoginRequestModel>;
   @useResult
-  $Res call(
-      {@JsonKey(name: 'phone_number') String phoneNumber,
-      String otp,
-      String password,
-      String domain});
+  $Res call({String password, String email});
 }
 
 /// @nodoc
@@ -64,27 +57,17 @@ class _$LoginRequestModelCopyWithImpl<$Res, $Val extends LoginRequestModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? phoneNumber = null,
-    Object? otp = null,
     Object? password = null,
-    Object? domain = null,
+    Object? email = null,
   }) {
     return _then(_value.copyWith(
-      phoneNumber: null == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-      otp: null == otp
-          ? _value.otp
-          : otp // ignore: cast_nullable_to_non_nullable
-              as String,
       password: null == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
-      domain: null == domain
-          ? _value.domain
-          : domain // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -98,11 +81,7 @@ abstract class _$$LoginRequestModelImplCopyWith<$Res>
       __$$LoginRequestModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'phone_number') String phoneNumber,
-      String otp,
-      String password,
-      String domain});
+  $Res call({String password, String email});
 }
 
 /// @nodoc
@@ -118,27 +97,17 @@ class __$$LoginRequestModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? phoneNumber = null,
-    Object? otp = null,
     Object? password = null,
-    Object? domain = null,
+    Object? email = null,
   }) {
     return _then(_$LoginRequestModelImpl(
-      phoneNumber: null == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
-              as String,
-      otp: null == otp
-          ? _value.otp
-          : otp // ignore: cast_nullable_to_non_nullable
-              as String,
       password: null == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
-      domain: null == domain
-          ? _value.domain
-          : domain // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -147,28 +116,19 @@ class __$$LoginRequestModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LoginRequestModelImpl implements _LoginRequestModel {
-  const _$LoginRequestModelImpl(
-      {@JsonKey(name: 'phone_number') required this.phoneNumber,
-      required this.otp,
-      required this.password,
-      required this.domain});
+  const _$LoginRequestModelImpl({required this.password, required this.email});
 
   factory _$LoginRequestModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$LoginRequestModelImplFromJson(json);
 
   @override
-  @JsonKey(name: 'phone_number')
-  final String phoneNumber;
-  @override
-  final String otp;
-  @override
   final String password;
   @override
-  final String domain;
+  final String email;
 
   @override
   String toString() {
-    return 'LoginRequestModel(phoneNumber: $phoneNumber, otp: $otp, password: $password, domain: $domain)';
+    return 'LoginRequestModel(password: $password, email: $email)';
   }
 
   @override
@@ -176,18 +136,14 @@ class _$LoginRequestModelImpl implements _LoginRequestModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoginRequestModelImpl &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                other.phoneNumber == phoneNumber) &&
-            (identical(other.otp, otp) || other.otp == otp) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.domain, domain) || other.domain == domain));
+            (identical(other.email, email) || other.email == email));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, phoneNumber, otp, password, domain);
+  int get hashCode => Object.hash(runtimeType, password, email);
 
   /// Create a copy of LoginRequestModel
   /// with the given fields replaced by the non-null parameter values.
@@ -208,23 +164,16 @@ class _$LoginRequestModelImpl implements _LoginRequestModel {
 
 abstract class _LoginRequestModel implements LoginRequestModel {
   const factory _LoginRequestModel(
-      {@JsonKey(name: 'phone_number') required final String phoneNumber,
-      required final String otp,
-      required final String password,
-      required final String domain}) = _$LoginRequestModelImpl;
+      {required final String password,
+      required final String email}) = _$LoginRequestModelImpl;
 
   factory _LoginRequestModel.fromJson(Map<String, dynamic> json) =
       _$LoginRequestModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'phone_number')
-  String get phoneNumber;
-  @override
-  String get otp;
-  @override
   String get password;
   @override
-  String get domain;
+  String get email;
 
   /// Create a copy of LoginRequestModel
   /// with the given fields replaced by the non-null parameter values.

@@ -1,7 +1,14 @@
+import 'dart:developer';
+
+import 'package:auto_route/auto_route.dart';
+import 'package:dashboard_mvvm_arch/core/router/router.dart';
 import 'package:dashboard_mvvm_arch/core/utils/screen_type.dart';
+import 'package:dashboard_mvvm_arch/features/auth/blocs/login_bloc/login_bloc.dart';
+import 'package:dashboard_mvvm_arch/features/auth/models/login_request_model/login_request_model.dart';
 import 'package:flutter/material.dart';
 import 'package:dashboard_mvvm_arch/features/auth/view/widgets/auth_textformfield.dart';
 import 'package:dashboard_mvvm_arch/features/auth/view/widgets/custom_auth_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class LoginAfterpage extends StatefulWidget {
@@ -18,8 +25,8 @@ class _LoginAfterpageState extends State<LoginAfterpage> {
 
   @override
   void initState() {
-    _password = TextEditingController();
-    _email = TextEditingController();
+    _password = TextEditingController(text: '123');
+    _email = TextEditingController(text: 'admin@admin.com');
     super.initState();
   }
 
@@ -93,12 +100,34 @@ class _LoginAfterpageState extends State<LoginAfterpage> {
                         isPassword: true,
                       ),
                       const SizedBox(height: 24.0),
-                      CustomAuthButton(
-                        title: 'Войти',
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {}
+                      BlocConsumer<LoginBloc, LoginState>(
+                        listener: (context, state) {
+                          if (state is LoginStateSuccess) {
+                            AutoRouter.of(context)
+                                .replaceAll([const MainRoute()]);
+                          } else if (state is LoginStateError) {
+                            log('Error message: ${state.message}');
+                          }
                         },
-                      ),
+                        builder: (context, state) {
+                          return CustomAuthButton(
+                            title: 'Войти',
+                            loading: state is LoginStateLoading,
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                context.read<LoginBloc>().add(
+                                      LoginEvent.getStarted(
+                                        reqModel: LoginRequestModel(
+                                          password: _password.text,
+                                          email: _email.text,
+                                        ),
+                                      ),
+                                    );
+                              }
+                            },
+                          );
+                        },
+                      )
                     ],
                   ),
                 ),
