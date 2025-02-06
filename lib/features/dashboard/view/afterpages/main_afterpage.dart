@@ -365,6 +365,13 @@ class _MainAfterpageState extends State<MainAfterpage> {
                   ),
                 ],
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    context
+                        .read<BalanceBloc>()
+                        .add(const BalanceEvent.getStarted());
+                  },
+                  child: Text('tap me')),
               const SizedBox(height: 26),
               type == DashboardType.colon
                   ? DashboardTable(data: data)

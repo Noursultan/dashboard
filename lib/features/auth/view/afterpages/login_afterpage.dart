@@ -25,7 +25,7 @@ class _LoginAfterpageState extends State<LoginAfterpage> {
 
   @override
   void initState() {
-    _password = TextEditingController(text: '123w');
+    _password = TextEditingController(text: '123');
     _email = TextEditingController(text: 'admin@admin.com');
     super.initState();
   }
