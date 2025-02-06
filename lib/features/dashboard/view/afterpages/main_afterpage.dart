@@ -1,5 +1,9 @@
 import 'package:dashboard_mvvm_arch/core/utils/screen_type.dart';
+import 'package:dashboard_mvvm_arch/features/dashboard/blocs/agents_bloc/agents_bloc.dart';
+import 'package:dashboard_mvvm_arch/features/dashboard/blocs/countries_bloc/countries_bloc.dart';
+import 'package:dashboard_mvvm_arch/features/dashboard/blocs/coverages_bloc/coverages_bloc.dart';
 import 'package:dashboard_mvvm_arch/features/dashboard/blocs/get_balance_bloc/get_balance_bloc.dart';
+import 'package:dashboard_mvvm_arch/features/dashboard/blocs/packages_bloc/packages_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,6 +31,10 @@ class _MainAfterpageState extends State<MainAfterpage> {
   @override
   void initState() {
     context.read<GetBalanceBloc>().add(const GetBalanceEvent.getStarted());
+    context.read<AgentsBloc>().add(const AgentsEvent.getStarted());
+    context.read<CountriesBloc>().add(const CountriesEvent.getStarted());
+    context.read<PackagesBloc>().add(const PackagesEvent.getStarted());
+    context.read<CoveragesBloc>().add(const CoveragesEvent.getStarted());
     super.initState();
   }
 
@@ -232,60 +240,76 @@ class _MainAfterpageState extends State<MainAfterpage> {
                         },
                       ),
                       const SizedBox(width: 8),
-                      Dropdown(
-                        title: 'Агент',
-                        items: const [
-                          'Все агенты',
-                          'Businessman',
-                          'Employee',
-                          'Freelancer',
-                          'Retired'
-                        ],
-                        onDateChanged: (String value) {
-                          print(value);
-                        },
+                      BlocBuilder<AgentsBloc, AgentsState>(
+                          builder:(context, state) {
+                            if (state is AgentsStateSuccess) {
+                              return Dropdown(
+                                title: 'Агент',
+                                items: [
+                                  'Все агенты',
+                                  ...state.resp.map((item) => ('${item.user.firstName} ${item.user.lastName}')).toList()
+                                ],
+                                onDateChanged: (String value) {
+                                  print(value);
+                                }
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          }
                       ),
                       const SizedBox(width: 8),
-                      Dropdown(
-                        title: 'Страны',
-                        items: const [
-                          'Все страны',
-                          'Businessman',
-                          'Employee',
-                          'Freelancer',
-                          'Retired'
-                        ],
-                        onDateChanged: (String value) {
-                          print(value);
-                        },
+                      BlocBuilder<CountriesBloc, CountriesState>(
+                          builder:(context, state) {
+                            if (state is CountriesStateSuccess) {
+                              return Dropdown(
+                                  title: 'Страны',
+                                  items: [
+                                    'Все страны',
+                                    ...state.resp.map((item) => ('${item.title}')).toList()
+                                  ],
+                                  onDateChanged: (String value) {
+                                    print(value);
+                                  }
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          }
                       ),
                       const SizedBox(width: 8),
-                      Dropdown(
-                        title: 'Покрытие',
-                        items: const [
-                          'Все',
-                          'Businessman',
-                          'Employee',
-                          'Freelancer',
-                          'Retired'
-                        ],
-                        onDateChanged: (String value) {
-                          print(value);
-                        },
+                      BlocBuilder<CoveragesBloc, CoveragesState>(
+                          builder:(context, state) {
+                            if (state is CoveragesStateSuccess) {
+                              return Dropdown(
+                                  title: 'Покрытие',
+                                  items: [
+                                    'Все',
+                                    ...state.resp.map((item) => ('${item.title}')).toList()
+                                  ],
+                                  onDateChanged: (String value) {
+                                    print(value);
+                                  }
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          }
                       ),
                       const SizedBox(width: 8),
-                      Dropdown(
-                        title: 'Пакеты',
-                        items: const [
-                          'Все',
-                          'Businessman',
-                          'Employee',
-                          'Freelancer',
-                          'Retired'
-                        ],
-                        onDateChanged: (String value) {
-                          print(value);
-                        },
+                      BlocBuilder<PackagesBloc, PackagesState>(
+                          builder:(context, state) {
+                            if (state is PackagesStateSuccess) {
+                              return Dropdown(
+                                  title: 'Пакеты',
+                                  items: [
+                                    'Все пакеты',
+                                    ...state.resp.map((item) => ('${item.title}')).toList()
+                                  ],
+                                  onDateChanged: (String value) {
+                                    print(value);
+                                  }
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          }
                       ),
                     ],
                   ),
